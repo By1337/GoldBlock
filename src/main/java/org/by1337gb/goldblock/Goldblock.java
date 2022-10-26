@@ -1,14 +1,8 @@
 package org.by1337gb.goldblock;
 
-
 import java.io.File;
-import java.util.Formatter;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Objects;
-import java.util.stream.Stream;
-import java.util.Optional;
-import java.util.*;
 import java.util.TreeSet;
 import java.util.Set;
 import eu.decentsoftware.holograms.api.DHAPI;
@@ -18,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
