@@ -1,0 +1,57 @@
+settings:
+  prefix: '&6&lЗолотой Блок'
+  #мир в котором будет спавнится блок
+  world: world
+  #Скорость выдавания валюты в секундах
+  give-money-timing: 2
+  #сколько выдавать валюты
+  money-give: 50
+  #Сколько до начала в минутах
+  time-start-interval: 2
+  #Продолжительность ивента в минутах
+  duration-event: 1
+  #за сколько до начало ивента выводить сообщение о его предстоящем начале
+  notification-start-event: 5
+  #вывод сообщения о начале ивента за 60 секунд, 30 секунд, 10 секунд, 5 секунд, 3,2,1 секунду
+  notification-sec: true
+  #матерьял блока | NETHERITE_BLOCK, GOLD_BLOCK, DIAMOND_BLOCK или любой другой матерьял
+  material-block: GOLD_BLOCK
+  #минимальное количество игроков на сервере для старта ивента
+  min-online-players: 1
+  #блоки на которых не будет появляться золотой блок
+  black-List:
+    - LAVA
+    - WATER
+    - SNOW
+    - BEDROCK
+    - CACTUS
+    - FIRE
+    - END_PORTAL
+    - END_CRYSTAL
+    - END_PORTAL_FRAME
+    - NETHER_PORTAL
+messages:
+  no-message: '&fИспользуйте &c/gb reload&f&l/&ctp'
+  gd-spawn: '&fЗолотой блок появился на координатах:&c'
+  gd-end: '&fЗолотой блок успешно окончен!'
+  protect-block: '&fЗапрещено ставить/ломать блоки в зоне &eЗолотого Блока'
+  tp: '&fВы успешно телепортировались на ивент!'
+  no-event: '&fИзвините, но ивент не начат!'
+  give-money: '&fВаш баланс пополнен на &6<money> &fмонет!'
+  reload: '&fПлагин успешно &fперезагружен!'
+  holo: '&6&lЗолотой Блок'
+  time-left: '&aОсталось времени: '
+  notification-msg: '&fЗолотой блок появиться через &6<time> &fминут!'
+  notification-msg-s: '&fЗолотой блок появиться через &6<time> &fсек.!'
+  format-time: '%02dчас. %02dмин. %02dсек.'
+titles:
+  gd-name: '&6&lЗолотой Блок'
+  gd-start: '&eкоординаты в чате!'
+  gd-end: '&eуспешно окончен!'
+goldblock:
+  radius-give-money: 10
+  radius-protect-block: 15
+  radius-max-spawn-block: 2000
+  radius-min-spawn-block: -2000
+pos:
+  pos: ''
