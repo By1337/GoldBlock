@@ -12,7 +12,6 @@ import java.util.Objects;
 
 public class Handler implements Listener {
      Goldblock plugin;
-    //public static Economy econ = null;
 
     public Handler(Goldblock plugin) {
         this.plugin = plugin;

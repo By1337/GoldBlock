@@ -1,10 +1,11 @@
 package org.by1337gb.goldblock;
 
-//import at.helpch.placeholderapi.example.SomePlugin;
-//import at.helpch.placeholderapi.example.Goldblock;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class SomeExpansion extends PlaceholderExpansion {
 
@@ -31,18 +32,30 @@ public class SomeExpansion extends PlaceholderExpansion {
 
     @Override
     public boolean persist() {
-        return true; // This is required or else PlaceholderAPI will unregister the Expansion on reload
+        return true;
     }
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
         if(params.equalsIgnoreCase("start")){ //%gb_start%
-            //long x = plugin.startIntervalChange / 20L;
-            //plugin.Format(plugin.startIntervalChange * 50)
             return plugin.Format(plugin.startIntervalChange / 20);
-           // return plugin.getConfig().getString("placeholders.placeholder1", "default1");
         }
+        if(params.equalsIgnoreCase("starts")){ //%gb_starts%
+            return String.valueOf(plugin.startIntervalChange / 20L);
+        }
+        if(params.equalsIgnoreCase("player")){ //%gb_player%
+            return String.valueOf(plugin.PlInGb());
+        }
+        if(params.equalsIgnoreCase("poz")){ //%gb_poz%
+            if (!Objects.equals(this.plugin.getConfig().getString("pos.pos"), "")) {
+                Location loc = (Location) this.plugin.getConfig().get("pos.pos");
+                assert loc != null;
+                return String.valueOf(loc.getBlock().getLocation().getX() + ", " + loc.getBlock().getLocation().getY() + ", " + loc.getBlock().getLocation().getZ());
+            }else{
+                return "none";
+            }
 
-        return null; // Placeholder is unknown by the Expansion
+        }
+        return null;
     }
 }
