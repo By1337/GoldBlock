@@ -2,7 +2,7 @@ name: Goldblock
 version: '${project.version}'
 main: org.by1337gb.goldblock.Goldblock
 depend: [PlaceholderAPI, DecentHolograms, Vault]
-api-version: 1.18
+api-version: 1.13
 authors: [ By1337 ]
 description: event gold block
 commands:
@@ -22,4 +22,7 @@ permissions:
     default: op
   gb.reload:
     description: /gb reload
+    default: op
+  gb.start:
+    description: /gb start
     default: op

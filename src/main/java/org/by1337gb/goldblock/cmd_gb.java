@@ -19,7 +19,7 @@ public class cmd_gb implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        Player p = (Player)sender;
+        Player p = (Player) sender;
         FileConfiguration config = this.plugin.getConfig();
         String prefix = Objects.requireNonNull(config.getString("settings.prefix")).replace("&", "§");
         if (args.length == 0) {
@@ -46,6 +46,15 @@ public class cmd_gb implements CommandExecutor {
             } else {
                 p.teleport((Location) Objects.requireNonNull(this.plugin.getConfig().get("pos.pos")));
                 p.sendMessage(prefix + " " + Objects.requireNonNull(config.getString("messages.tp")).replace("&", "§"));
+                return true;
+            }
+        } else if (args[0].equals("start")) {
+            if (!p.hasPermission("gb.start")) {
+                p.sendMessage("Недостаточно прав!");
+                return true;
+            } else {
+                //Goldblock.StartEvent();
+                //this.plugin.StartEvent();
                 return true;
             }
         } else {

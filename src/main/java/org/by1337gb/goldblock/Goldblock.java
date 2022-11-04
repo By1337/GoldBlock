@@ -3,19 +3,13 @@ package org.by1337gb.goldblock;
 import java.io.File;
 import java.util.*;
 import java.util.Objects;
-import java.util.TreeSet;
-import java.util.Set;
 import eu.decentsoftware.holograms.api.DHAPI;
 import net.milkbowl.vault.economy.Economy;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class Goldblock extends JavaPlugin {
@@ -29,23 +23,20 @@ public final class Goldblock extends JavaPlugin {
     private final Material Mat = Material.valueOf(Objects.requireNonNull(this.getConfig().getString("settings.material-block")));
     private static List<String> BlackList = new ArrayList<String>();
     public List<String> PlayerEvent = new ArrayList<String>();
+    public List<Long> time;
+    public List<String> FormatTime = this.getConfig().getStringList("messages.format-time");
 
     public Goldblock() {
     }
     @Override
     public void onEnable() {
+        time = this.getConfig().getLongList("settings.notification-time");
         BlackList = (List<String>) this.getConfig().getStringList("settings.black-List");
-
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
             new SomeExpansion(this).register();
-
-
         getServer().getPluginManager().registerEvents(new Handler(this), this);
-
         RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
-
         Objects.requireNonNull(this.getCommand("gb")).setExecutor(new cmd_gb(this));
-
         if (rsp != null) {
             econ = (Economy) rsp.getProvider();
             Bukkit.getScheduler().runTaskTimer(this, () -> {
@@ -57,9 +48,7 @@ public final class Goldblock extends JavaPlugin {
                     }
                 }
             }, 40L, 40L);
-
             Bukkit.getScheduler().runTaskTimer(this, () -> { //когда ивент начался
-
                 if (Bukkit.getOnlinePlayers().size() >= this.getConfig().getInt("settings.min-online-players")) {
                     if (Objects.equals(this.getConfig().getString("pos.pos"), "")) {
                         startIntervalChange -= 20L;
@@ -79,17 +68,9 @@ public final class Goldblock extends JavaPlugin {
                                 play.sendTitle(Objects.requireNonNull(this.getConfig().getString("titles.gd-name")).replace("&", "§"), Objects.requireNonNull(this.getConfig().getString("titles.gd-start")).replace("&", "§"), 120, 60, 120);
                             }
                         }
-                        if(startIntervalChange == this.getConfig().getLong("settings.notification-start-event") * 60 * 20 ){
+                        if(time.contains(startIntervalChange) && this.getConfig().getBoolean("settings.notification")){
                             for (Player play : Bukkit.getOnlinePlayers()) {
-                                play.sendMessage(Objects.requireNonNull(this.getConfig().getString("settings.prefix")).replace("&", "§") + " " + Objects.requireNonNull(this.getConfig().getString("messages.notification-msg")).replace("&", "§").replace("<time>", Objects.requireNonNull(this.getConfig().getString("settings.notification-start-event"))));
-                            }
-                        }
-                        Set<Long> time = new TreeSet<Long>();time.add(1200L);time.add(600L);time.add(200L);time.add(100L);time.add(60L);time.add(40L);time.add(20L);
-
-
-                        if(time.contains(startIntervalChange) && this.getConfig().getBoolean("settings.notification-sec")){
-                            for (Player play : Bukkit.getOnlinePlayers()) {
-                                play.sendMessage(Objects.requireNonNull(this.getConfig().getString("settings.prefix")).replace("&", "§") + " " + Objects.requireNonNull(this.getConfig().getString("messages.notification-msg-s")).replace("&", "§").replace("<time>", "" + startIntervalChange / 20));
+                                play.sendMessage(Objects.requireNonNull(this.getConfig().getString("settings.prefix")).replace("&", "§") + " " + Objects.requireNonNull(this.getConfig().getString("messages.notification-msg")).replace("&", "§").replace("<time>", String.format(Format2(startIntervalChange / 20))));
                             }
                         }
                     } else {
@@ -108,7 +89,6 @@ public final class Goldblock extends JavaPlugin {
                         DHAPI.removeHologram("gb");
                         this.getConfig().set("pos.pos", "");
                         this.saveConfig();
-
                         for (Player play : Bukkit.getOnlinePlayers()) {
                             play.sendMessage(Objects.requireNonNull(this.getConfig().getString("settings.prefix")).replace("&", "§") + " " + Objects.requireNonNull(this.getConfig().getString("messages.gd-end")).replace("&", "§"));
                          //   play.sendMessage("Игроки приневшие участие в ивенте " + PlayerEvent);
@@ -126,7 +106,6 @@ public final class Goldblock extends JavaPlugin {
                 if (Bukkit.getOnlinePlayers().size() > 0) {
                     if (!Objects.equals(this.getConfig().getString("pos.pos"), "")) {
                         Location location = (Location) this.getConfig().get("pos.pos");
-
                         for (Player p : Bukkit.getOnlinePlayers()) {
                             if(p.getLocation().distance(Objects.requireNonNull(location)) < this.getConfig().getDouble("goldblock.radius-give-money")){
                                 if(!PlayerEvent.contains(p.getDisplayName())){
@@ -151,13 +130,11 @@ public final class Goldblock extends JavaPlugin {
                 if (!Objects.equals(this.getConfig().getString("pos.pos"), "")){
                     timer -= 20L;
                     long Sec = timer / 20;
-                    DHAPI.setHologramLine(Hologram.getCachedHologram("gb"), 1, this.getConfig().getString("messages.time-left")  + String.format(Objects.requireNonNull(this.getConfig().getString("messages.format-time")), Sec / 3600, Sec % 3600 / 60, Sec % 60));
+                    DHAPI.setHologramLine(Hologram.getCachedHologram("gb"), 1, this.getConfig().getString("messages.time-left")  + " " + Format(Sec));
                 } else {
                     timer = duratIonevent * 20L;
                 }
             }, 20L, 20L);
-
-
 
             File config = new File(this.getDataFolder() + File.separator + "config.yml");
             if (!config.exists()) {
@@ -165,13 +142,9 @@ public final class Goldblock extends JavaPlugin {
                 this.getConfig().options().copyDefaults(true);
                 this.saveDefaultConfig();
             }
-
             this.getLogger().info("Plugin enabled " + getDescription().getAuthors().get(0));
         }
     }
-
-
-
     public double PlInGb(){//возвращает кол-во игроков в зоне зб
         double pl = 0;
         if (Bukkit.getOnlinePlayers().size() > 0) {
@@ -186,7 +159,6 @@ public final class Goldblock extends JavaPlugin {
         }
         return pl;
     }
-
     public Location RndLoc(){
         double x = ThreadLocalRandom.current().nextLong(this.getConfig().getInt("goldblock.radius-min-spawn-block"), this.getConfig().getInt("goldblock.radius-max-spawn-block"));
         double y = 100.0;
@@ -199,10 +171,84 @@ public final class Goldblock extends JavaPlugin {
             return null;
         else
             return loc;
-
     }
     public String Format(long Sec){
-        return String.format(Objects.requireNonNull(this.getConfig().getString("messages.format-time")), Sec / 3600, Sec % 3600 / 60, Sec % 60);
+        int hour = (int) Sec / 3600;
+        int min = (int) Sec % 3600 / 60;
+        int sec = (int) Sec % 60;
+        String fin = "";
+        if(hour != 0) {
+            if (hour < 5) {
+                if (hour == 1)
+                    fin += FormatTime.get(0);
+                else
+                    fin += hour + " " + FormatTime.get(1);
+            } else
+                fin += hour + FormatTime.get(2);
+        }
+
+        if(min != 0){
+            if(min < 5){
+                if(min == 1)
+                    fin += hour == 0 ?  FormatTime.get(3) : " " + FormatTime.get(3);
+                else
+                    fin += hour == 0 ? min + " " + FormatTime.get(4) : " " + min + " " + FormatTime.get(4);
+            }
+            else
+                fin += min + FormatTime.get(5);
+        }
+
+        if(sec != 0){
+            if(sec < 5){
+                if(sec == 1)
+                    fin += min == 0 ? FormatTime.get(6) : " " + FormatTime.get(6);
+                else
+                    fin += min == 0 ?  sec + " " + FormatTime.get(7) : " " + sec + " " + FormatTime.get(7);
+            }
+            else
+                fin +=  " " + sec + FormatTime.get(8);
+        }
+        return fin;
+
+    }
+    public String Format2(long Sec){
+        int hour = (int) Sec / 3600;
+        int min = (int) Sec % 3600 / 60;
+        int sec = (int) Sec % 60;
+        String fin = "";
+        if(hour != 0) {
+            if (hour < 5) {
+                if (hour == 1)
+                    fin += FormatTime.get(0);
+                else
+                    fin += hour + " " + FormatTime.get(1);
+            } else
+                fin += hour + " " + FormatTime.get(9);
+        }
+
+        if(min != 0){
+            if(min < 5){
+                if(min == 1)
+                    fin += hour == 0 ?  FormatTime.get(10) : " " + FormatTime.get(10);
+                else
+                    fin +=  min + " " + FormatTime.get(4) ;
+            }
+            else
+                fin += min + " " + FormatTime.get(11);
+        }
+
+        if(sec != 0){
+            if(sec < 5){
+                if(sec == 1)
+                    fin += min == 0 ?  FormatTime.get(12) : " " +  FormatTime.get(12);
+                else
+                    fin +=  sec + " " + FormatTime.get(7);
+            }
+            else
+                fin += sec + " " + FormatTime.get(13);
+        }
+        return fin;
+
     }
     @Override
     public void onDisable() {
