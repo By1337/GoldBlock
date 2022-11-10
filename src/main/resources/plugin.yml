@@ -9,7 +9,7 @@ commands:
   goldblock:
     description: Standart Command
     aliases: [gb]
-    usage: Usage /goldblock [tp/reload]
+    usage: Usage /goldblock <tp/reload>
 permissions:
   gb.*:
     description: All cmd
@@ -22,7 +22,4 @@ permissions:
     default: op
   gb.reload:
     description: /gb reload
-    default: op
-  gb.start:
-    description: /gb start
     default: op

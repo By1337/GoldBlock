@@ -1,20 +1,19 @@
 settings:
   prefix: '&6&lЗолотой Блок'
   world: world #мир в котором будет спавнится блок
-  WorldGuard: true #проверка на регион
   give-money-timing: 2 #Скорость выдавания валюты в секундах
   money-give: 50 #сколько выдавать валюты
   divide-between: true #разделить валюту между игроками в зоне ивента, если true то 2 игрока получат не 50, а 25
   time-start-interval: 2 #Сколько до начала в минутах
   duration-event: 1 #Продолжительность ивента в минутах
-  notification-time: #за сколько до начала ивента выводить сообщение о его предстоящем начале в тиках 20 тиков = 1 секунда
-    - 1200
-    - 600
-    - 200
-    - 100
+  notification-time: #за сколько до начала ивента выводить сообщение о его предстоящем начале в секундах
     - 60
-    - 40
-    - 20
+    - 30
+    - 10
+    - 5
+    - 3
+    - 2
+    - 1
   notification: true #вывод сообщения о начале ивента
   material-block: GOLD_BLOCK #матерьял блока | NETHERITE_BLOCK, GOLD_BLOCK, DIAMOND_BLOCK или любой другой матерьял
   min-online-players: 1 #минимальное количество игроков на сервере для старта ивента
@@ -29,6 +28,26 @@ settings:
     - END_CRYSTAL
     - END_PORTAL_FRAME
     - NETHER_PORTAL
+    - ACACIA_LEAVES
+    - AZALEA_LEAVES
+    - BIRCH_LEAVES
+    - OAK_LEAVES
+    - DARK_OAK_LEAVES
+    - SPRUCE_LEAVES
+    - FLOWERING_AZALEA_LEAVES
+    - JUNGLE_LEAVES
+  top-length: 5 #длинна списка лидеров
+  laser: "CRYSTAL_LASER" # варианты: CRYSTAL_LASER, GUARDIAN_LASER, NONE
+  laser-view-distance: 50 # In blocks
+  laser-time: 300 # In sec
+  defenders: #мобы охранники
+    spawn: true
+    name: "&c&lХранитель"
+    type: VINDICATOR # все мобы - https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Entity.html список под текстом 'All Known Subinterfaces:'
+    permanent-spawn: true # спанить мобов когда возле блока больше чем spawn-players-near-block игроков?
+    time-spawn: 10 #если permanent-spawn true и если игроков возле зб больше или равно чем spawn-players-near-block то каждые time-spawn секуннд будут появляться охранники
+    spawn-players-near-block: 1 #спавнить если возле блока n игроков
+
 messages:
   no-message: '&fИспользуйте &c/gb reload&f&l/&ctp'
   gd-spawn: '&fЗолотой блок появился на координатах:&c'
@@ -36,11 +55,17 @@ messages:
   protect-block: '&fЗапрещено ставить/ломать блоки в зоне &eЗолотого Блока'
   tp: '&fВы успешно телепортировались на ивент!'
   no-event: '&fИзвините, но ивент не начат!'
+  poz-none: '&fИвент не начат!'
   give-money: '&fВаш баланс пополнен на &6<money> &fмонет!'
   reload: '&fПлагин успешно &fперезагружен!'
   holo: '&6&lЗолотой Блок'
   time-left: '&aОсталось времени: '
   notification-msg: '&fЗолотой блок появиться через &6<time>'  #time format
+  gb-near-none: '&7Пусто'
+  no-perms: '&aНедостаточно прав!'
+  player-top: '&6<position>. &f<name> &a<score>$'
+  empty-top: '&7Никого'
+  msg-top: '  &6&lТоп игроков'
   format-time:
     - '1 час'
     - 'часа'
@@ -67,3 +92,5 @@ goldblock:
   radius-min-spawn-block: -2000
 pos:
   pos: ''
+date:
+  top:
