@@ -2,11 +2,14 @@
 Event GoldBlock
 
 For versions 1.16.+1.17.+1.18+1.19.+
+
 Java Java 16
 
 Plugin for event golden block
 Required for work: PlaceholderAPI, DecentHolograms, Vault
+
 Hologram support
+
 Message about the upcoming start of the event
 
 Placeholders:
@@ -15,6 +18,7 @@ Placeholders:
 - %gb_near% - Displays the number of players near the golden block
 - %gb_poz% - Displays block coordinates
 - %gb_top% - Displays the top list of players
+
 Rights:
 - gb.* only op recommended
 - gb.tp only recommended op
