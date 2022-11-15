@@ -1,41 +1,25 @@
-name: PlayerHologram
+name: Goldblock
 version: '${project.version}'
-main: org.by1337.ezholo.playerhologram.PlayerHologram
+main: org.by1337gb.goldblock.Goldblock
+depend: [PlaceholderAPI, DecentHolograms, Vault]
 api-version: 1.13
-depend: [DecentHolograms, Vault]
 authors: [ By1337 ]
-description: Let players create their own holograms!
+description: event gold block
 commands:
-  phologram:
+  goldblock:
     description: Standart Command
-    aliases: [pholo, ph]
-    usage: Usage /pholo create <name>
+    aliases: [gb]
+    usage: Usage /goldblock <tp/reload>
 permissions:
-  pholo.*:
+  gb.*:
     description: All cmd
     default: op
     children:
-      pholo.create: true
-      pholo.del: true
-      pholo.reload: true
-      pholo.move: true
-      pholo.addline: true
-      pholo.removeline: true
-  pholo.create:
-    description: /pholo create
+      fgb.tp: true
+      fgb.reload: true
+  gb.tp:
+    description: /gb tp
     default: op
-  pholo.reload:
-    description: /pholo reload
-    default: op
-  pholo.del:
-    description: /pholo del
-    default: op
-  pholo.move:
-    description: /pholo move
-    default: op
-  pholo.addline:
-    description: /pholo addline
-    default: op
-  pholo.removeline:
-    description: /pholo removeline
+  gb.reload:
+    description: /gb reload
     default: op
